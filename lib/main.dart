@@ -14,6 +14,7 @@ class App extends StatelessWidget {
         builder: (_, theme) {
           return MaterialApp(
             theme: theme,
+            debugShowCheckedModeBanner: false,
             home: BlocProvider(
               create: (_) => CounterCubit(),
               child: CounterPage(),
@@ -29,7 +30,7 @@ class CounterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Counter')),
+      appBar: AppBar(title: Text('Counter')),
       body: BlocBuilder<CounterCubit, int>(
         builder: (context, count) => Center(child: Text('$count')),
       ),
@@ -38,9 +39,9 @@ class CounterPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            padding: EdgeInsets.symmetric(vertical: 5.0),
             child: FloatingActionButton(
-              child: const Icon(Icons.brightness_6),
+              child: Icon(Icons.brightness_6),
               onPressed: () => context.read<ThemeCubit>().toggleTheme(),
             ),
           ),
@@ -76,20 +77,23 @@ class ThemeCubit extends Cubit<ThemeData> {
   ThemeCubit() : super(_lightTheme);
 
   static final _lightTheme = ThemeData(
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      foregroundColor: Colors.white,
-    ),
-    brightness: Brightness.light,
-  );
+      brightness: Brightness.light,
+      primaryColor: Colors.deepOrange[400],
+      accentColor: Colors.red[700],
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        foregroundColor: Colors.white,
+      ),
+      visualDensity: VisualDensity.adaptivePlatformDensity);
 
   static final _darkTheme = ThemeData(
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      foregroundColor: Colors.black,
-    ),
-    brightness: Brightness.dark,
-  );
+      brightness: Brightness.dark,
+      primaryColor: Colors.deepOrange[300],
+      accentColor: Colors.red[500],
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        foregroundColor: Colors.black,
+      ),
+      visualDensity: VisualDensity.adaptivePlatformDensity);
 
-  /// Toggles the current brightness between light and dark.
   void toggleTheme() {
     emit(state.brightness == Brightness.dark ? _lightTheme : _darkTheme);
   }
