@@ -13,7 +13,7 @@ class Cubito extends Cubit<Information> {
   void getAllStudents() async {
     final response = await repo.getAllStudents();
     response.fold((l) => emit(state.copyWith(message: "Hay P2")),
-        (r) => emit(Information(r, 0, state.text, "")));
+        (r) => emit(Information(r, null, state.text, "")));
   }
 
   void changeText(String text) {
@@ -30,6 +30,7 @@ class Cubito extends Cubit<Information> {
   }
 
   void addStudent() async {
+    print("Texto: ${state.text}");
     final result = await repo.addStudent(Student(id: 0, name: state.text));
     if (result == false) {
       emit(state.copyWith(message: "No Pude Agregar"));

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:flutter_dartz/models/student.dart';
 import 'package:flutter_dartz/models/student_r.dart';
@@ -50,7 +52,8 @@ class Repository implements StudentR {
       final studentJSON = {"name": student.name};
       final response = await http
           .put("$API_STUDENTS/${student.id}",
-              headers: {'Content-Type': 'application/json'}, body: studentJSON)
+              headers: {'Content-Type': 'application/json'},
+              body: json.encode(studentJSON))
           .timeout(Duration(seconds: 15), onTimeout: () {
         return null;
       });
@@ -70,11 +73,11 @@ class Repository implements StudentR {
       final studentJSON = {"name": student.name};
       final response = await http
           .post(API_STUDENTS,
-              headers: {'Content-Type': 'application/json'}, body: studentJSON)
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(studentJSON))
           .timeout(Duration(seconds: 15), onTimeout: () {
         return null;
       });
-
       if (response == null || response.statusCode != 201) {
         return false;
       }

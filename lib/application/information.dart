@@ -10,7 +10,7 @@ class Information {
   const Information(this.students, this.selected, this.text, this.message);
 
   factory Information.inicial() {
-    return const Information([], 0, "", "");
+    return const Information([], null, "", "");
   }
 
   Information copyWith(
